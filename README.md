@@ -8,7 +8,7 @@
 
 [https://www.python.org/downloads/](https://www.python.org/downloads/)からPythonをインストールする。
 
-**注意：** Python 3.12.xを利用してください。3.13.xでは依存するパッケージがインストールできません。
+**注意：** Python 3.12.xを利用すること。バージョン3.13以上では依存するパッケージがインストールできない。
 
 ### Redisをインストールする
 
@@ -29,10 +29,12 @@ pip install -r requirements.txt
 
 ### YOLOモデルファイルを配置する
 
-学習済みのYOLOモデルファイル（YOLO v3）は次のURLからダウンロードし、modelフォルダーに配置する。人物、動物、乗り物などを検出するモデルである。  
+学習済みのYOLOモデルファイル（YOLO v3）は次のURLからダウンロードし、modelフォルダーに配置する。人物、動物、乗り物などを検出するモデルである。次の2つのバージョンで動作を確認している。
 
-[https://github.com/OlafenwaMoses/ImageAI/releases/download/3.0.0-pretrained/yolov3.pt/](
-https://github.com/OlafenwaMoses/ImageAI/releases/download/3.0.0-pretrained/yolov3.pt/)
+- [yolov8n.pt](
+https://huggingface.co/Ultralytics/YOLOv8/blob/main/yolov8n.pt)
+- [yolo11n.pt](
+https://huggingface.co/Ultralytics/YOLO11/blob/365ed86341e7a7456dbc4cafc09f138814ce9ff1/yolo11n.pt)
 
 ### 環境変数を設定する
 
@@ -210,18 +212,20 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 
 ### eYACHO/GEMBA Noteとのデータ連携テスト
 
-- packageフォルダ以下にある開発パッケージのバックアップファイル（**YOLO_Detect__<バージョン>__backup.gncproj**）をeYACHO/GEMBA Noteに復元する
-- サーバーが起動していることを確認する
+- packageフォルダ以下にある開発パッケージのバックアップファイル（**YOLO_Detect__<バージョン>__backup.gncproj**）をeYACHO/GEMBA Noteに復元する。
+  - eYACHO/GEMBA Note **バージョン7** 以降を利用すること。
+- サーバーが起動していることを確認する。
   - Windowsアプリからローカルサーバーにアクセスする場合は、管理者モードで利用対象アプリのループバックを有効にする → [Windowsで開発する際の注意点](./NoticesForWindows.md)
-- 開発パッケージフォルダ上にある **物体検出ノートテンプレート** をクリックする
-  - 新たなノートが作成される
-- 編集状態のノートの中にある「縦型画像」ページあるいは「横型画像」ページを選択する
-- 対象の画像を「入力画像」に張り付ける
-  - 人物、動物、乗り物などが映っている画像が良い
+- 開発パッケージフォルダ上にある **物体検出ノートテンプレート** をクリックする。
+  - 新たなノートが作成される。
+- 編集状態のノートの中にある「縦型画像」ページあるいは「横型画像」ページを選択する。
+- 対象の画像を「入力画像」に張り付ける。
+  - 人物、動物、乗り物などが映っている画像が良い。
 - ページ上の **画像送信** ボタンをクリックする [1]
   - 「送信終了」とダイアログが現れると検出成功
 - 同ページにある **領域検出** と **結果画像** をクリックすると認識した物体名称とその位置、検出画像が表示される [2]
-  - どちらのボタンからクリックしてもよい
+  - どちらのボタンからクリックしてもよい。
+- **一括実行** ボタンは、画像送信、領域検出、結果画像すべてのボタンを一度に実行する。
 
 [1] サーバーのポート番号を変更した場合は、「画像送信」のボタンコマンド「サーバーに送信する」に設定してあるRESTのURL、アグリゲーション検索条件「detectedObjectList」と「detectedImage」のコネクタ定義にある **URL** を変更する。  
 [2] 環境変数 REDIS_EXPIREで指定した時間間隔だけ、検出結果は残る。
@@ -232,6 +236,7 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 
 ### 更新履歴
 
-- 2024-11-14 初版
+- 2025-11-10 - V7に伴う修正・Ultralyticsへのグレードアップ
+- 2024-11-14 - 初版
 
 [detected_sample]:./static/image/detected_results_sample.png

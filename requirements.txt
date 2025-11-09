@@ -1,15 +1,7 @@
 fastapi
-h5py
-imageai
 Jinja2
-numpy
-opencv-python
 python-dotenv
-pytest
 redis
 requests
-scipy
-torch
-torchvision
-tqdm
+ultralytics
 uvicorn

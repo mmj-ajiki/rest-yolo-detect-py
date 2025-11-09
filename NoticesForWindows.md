@@ -8,28 +8,28 @@ eYACHO および GEMBA NoteのようなWindows Storeアプリは、初期設定�
 
 管理者モードで起動したコマンドプロンプトを用いて実行する。
 
-### eYACHO for Business 6 の場合
+### eYACHO for Business の場合
 
 ```batch
-CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.eYACHOforBusiness6_dprdgbsyk6pqc
+CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.eYACHOforBusiness7_dprdgbsyk6pqc
 ```
 
-### eYACHO Viewer 6 の場合
+### eYACHO Viewer の場合
 
 ```batch
-CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.eYACHOViewer6_dprdgbsyk6pqc
+CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.eYACHOViewer7_dprdgbsyk6pqc
 ```
 
-### GEMBA Note for Business 6 の場合
+### GEMBA Note for Business の場合
 
 ```batch
-CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.GEMBANoteforBusiness6_dprdgbsyk6pqc
+CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.GEMBANoteforBusiness7_dprdgbsyk6pqc
 ```
 
-### GEMBA Note Viewer 6 の場合
+### GEMBA Note Viewer の場合
 
 ```batch
-CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.GEMBANoteViewer6_dprdgbsyk6pqc
+CheckNetIsolation.exe LoopbackExempt -a -n=MetaMoJiCorporation.GEMBANoteViewer7_dprdgbsyk6pqc
 ```
 
 ※Windowsの設定で開発者用モードをONにしている場合など、環境によってはコマンドの実行が必要ない場合がある。

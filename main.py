@@ -7,7 +7,7 @@
 #  YOLOを利用した物体検出向けのRESTメソッドを定義する
 # 
 # [NOTES]
-#  YOLO V3を利用している
+#  Ultralytics YOLOを利用している
 #
 import base64, os, sys, time
 from fastapi import FastAPI, Request
@@ -145,7 +145,8 @@ def postDetectObjects(json_data: dict):
         
     # 物体を検出する
     annotated_image = local_folder + "/detected-" + filename
-    detected = yoloDetectObjects(file_path, annotated_image, yolo_model_file)
+    mode = is_reload_enabled()
+    detected = yoloDetectObjects(file_path, annotated_image, yolo_model_file, mode)
 
     # 格納するキーはeYACHO/GEMBA NoteのノートIDとページIDから生成する
     key = noteId + "-" + json_data['_pageId']
@@ -169,6 +170,7 @@ def postDetectObjects(json_data: dict):
     return detected
 #
 # HISTORY
+# [2] 2025-11-10 - Added mode to yoloDetectObjects()
 # [1] 2024-11-14 - Initial version
 #
 
