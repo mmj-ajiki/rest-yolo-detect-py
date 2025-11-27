@@ -53,7 +53,7 @@ print("Connected REDIS")
 #  {'keys': ['objName', 'probability', 'topX', 'topY', 'bottomX', 'bottomY'],
 #   'records': [
 #       {'objName':<Detected Name>, 
-#        'probability':<Percentage>, 
+#        'probability':<Ratio>, 
 #        'topX':234, 'topY':140, 'bottmX':249, 'bottomY':156}, 
 #       ...],
 #   'message': <コメント>}
@@ -130,7 +130,7 @@ def redisImageGet(key):
 #  {'keys': ['objName', 'probability', 'topX', 'topY', 'bottomX', 'bottomY'],
 #   'records': [
 #       {'objName':<Detected Name>, 
-#        'probability':<Percentage>, 
+#        'probability':<Ratio>, 
 #        'topX':234, 'topY':140, 'bottmX':249, 'bottomY':156}, 
 #       ...],
 #   'message': <コメント>}

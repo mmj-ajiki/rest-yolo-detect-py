@@ -16,7 +16,7 @@ NoSQLのキーバリュー型の一つで、メモリ上でデータを管理す
 
 [https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)を参考にインストールする。
 
-**補足：** WSL2のLinuxで動作させなくても、Redis for Windows 3.0からでも動作することを確認しています。
+**補足：** WSL2のLinuxで動作させなくても、Redis for Windows 3.0からでも動作することを確認している。
 **配信サイト：** [https://github.com/MicrosoftArchive/redis/releases](https://github.com/MicrosoftArchive/redis/releases)
 
 ### 必要なパッケージのインストール
@@ -52,7 +52,7 @@ https://huggingface.co/Ultralytics/YOLO11/blob/365ed86341e7a7456dbc4cafc09f13881
 
 コマンドプロンプトから次のコマンドを実行し、サーバーを起動する。
 
-開発版（ソースコード編集内容が自動的に反映される）:
+開発環境（ソースコード編集内容が自動的に反映される）:
 
 ```bash
 uvicorn main:app --reload
@@ -64,7 +64,7 @@ uvicorn main:app --reload
 uvicorn main:app
 ```
 
-※Application startup completeと表示されるまで少し時間がかかります。
+※Application startup completeと表示されるまで少し時間がかかる。
 
 コマンドの説明:
 
@@ -136,7 +136,46 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
   'keys': ['objName', 'probability', 'topX', 'topY', 'bottomX', 'bottomY'],
   'records': [
     {'objName':<Detected Name>, 
-     'probability':<Percentage>, 
+     'probability':<Ratio>, 
+      'topX':234, 'topY':140, 'bottmX':249, 'bottomY':156}, 
+    ...],
+  'message': <コメント>
+}
+```
+
+#### /rest/detect_pdf (POSTメソッド)
+
+eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想定）を画像ファイルに変換し、YOLOの物体検出を実行し、結果をRedisに格納する。
+
+リクエストボディ(JSON)の構造：
+
+| キー | 説明 |
+| ---- | ---- |
+| label | 送信するPDF情報のラベル |
+| _noteLink | eYACHO/GEMBA Noteの対象ノート固有のURL |
+| _notePdf | 物体検出するPDFのBase64文字列 |
+
+※labelと_noteLinkは、Redisに情報を格納するときのキーを生成するために利用する。
+
+レスポンスの仕様:
+
+|  キー  | 説明  |
+| ---- | ---- |
+| objName | 検出された物体名称 |
+| probability | 検出精度 |
+| topX | 検出された領域の左上のX座標 |
+| topY | 検出された領域の左上のY座標 |
+| bottomX | 検出された領域の右下のX座標 |
+| bottomY | 検出された領域の右下のY座標 |
+
+レスポンス例:
+
+```bash
+{
+  'keys': ['objName', 'probability', 'topX', 'topY', 'bottomX', 'bottomY'],
+  'records': [
+    {'objName':<Detected Name>, 
+     'probability':<Ratio>, 
       'topX':234, 'topY':140, 'bottmX':249, 'bottomY':156}, 
     ...],
   'message': <コメント>
@@ -153,6 +192,7 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 | ---- | ---- |
 | _NOTE_LINK | eYACHO/GEMBA Noteの対象ノート固有のURL |
 | _PAGE_ID | eYACHO/GEMBA Noteの対象ページ固有のID番号 |
+| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用）|
 
 ※_NOTE_LINKと_PAGE_IDは、Redisから情報を取得するときのキーを生成するために利用する。
 
@@ -174,7 +214,7 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
   'keys': ['objName', 'probability', 'topX', 'topY', 'bottomX', 'bottomY'],
   'records': [
     {'objName':<Detected Name>, 
-     'probability':<Percentage>, 
+     'probability':<Ratio>, 
       'topX':234, 'topY':140, 'bottmX':249, 'bottomY':156}, 
     ...],
   'message': <コメント>
@@ -191,6 +231,7 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 | ---- | ---- |
 | _NOTE_LINK | eYACHO/GEMBA Noteの対象ノート固有のURL |
 | _PAGE_ID | eYACHO/GEMBA Noteの対象ページ固有のID番号 |
+| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用）|
 
 ※_NOTE_LINKと_PAGE_IDは、Redisから情報を取得するときのキーを生成するために利用する。
 
@@ -216,16 +257,30 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
   - eYACHO/GEMBA Note **バージョン7** 以降を利用すること。
 - サーバーが起動していることを確認する。
   - Windowsアプリからローカルサーバーにアクセスする場合は、管理者モードで利用対象アプリのループバックを有効にする → [Windowsで開発する際の注意点](./NoticesForWindows.md)
+
+**■ イメージユニットの画像から検出する**  
+
 - 開発パッケージフォルダ上にある **物体検出ノートテンプレート** をクリックする。
   - 新たなノートが作成される。
 - 編集状態のノートの中にある「縦型画像」ページあるいは「横型画像」ページを選択する。
-- 対象の画像を「入力画像」に張り付ける。
+- 対象の画像をイメージユニット「入力画像」に張り付ける。
   - 人物、動物、乗り物などが映っている画像が良い。
 - ページ上の **画像送信** ボタンをクリックする [1]
   - 「送信終了」とダイアログが現れると検出成功
 - 同ページにある **領域検出** と **結果画像** をクリックすると認識した物体名称とその位置、検出画像が表示される [2]
   - どちらのボタンからクリックしてもよい。
 - **一括実行** ボタンは、画像送信、領域検出、結果画像すべてのボタンを一度に実行する。
+
+**■ 画面全体から検出する**  
+
+- 開発パッケージフォルダ上にある **手書きノートテンプレート** をクリックする。
+  - 新たなノートが作成される。
+- 1ページ目にラベルを記入し、自由に絵を手書きで描いたり、画像を添付する。
+- ページ上の **画像送信** ボタンをクリックする [1]
+  - 「送信終了」とダイアログが現れると検出成功
+- 2ページに移動し、同じラベルを記入し、**領域検出** と **結果画像** をクリックすると認識した物体名称とその位置、検出画像が表示される [2]
+  - どちらのボタンからクリックしてもよい。
+- **一括実行** ボタンは、領域検出、結果画像すべてのボタンを一度に実行する。
 
 [1] サーバーのポート番号を変更した場合は、「画像送信」のボタンコマンド「サーバーに送信する」に設定してあるRESTのURL、アグリゲーション検索条件「detectedObjectList」と「detectedImage」のコネクタ定義にある **URL** を変更する。  
 [2] 環境変数 REDIS_EXPIREで指定した時間間隔だけ、検出結果は残る。
@@ -234,8 +289,15 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 
 ![物体検出例][detected_sample]
 
+### 注意点
+
+- 複数ユーザーを想定していない。
+- シェアノートをサポートしていない。
+- /rest/detect_pdfメソッドの実行は、最後に付与されたラベル名の情報が検出される。
+
 ### 更新履歴
 
+- 2025-11-27 - 画面全体からの検出を追加
 - 2025-11-10 - V7に伴う修正・Ultralyticsへのグレードアップ
 - 2024-11-14 - 初版
 
