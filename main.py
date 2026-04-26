@@ -79,9 +79,13 @@ def is_reload_enabled():
 @app.get("/", response_class=HTMLResponse)
 async def topPage(request: Request):
     
-    return templates.TemplateResponse("top.html", {"request": request, "title": "YOLO REST Server"})
+    return templates.TemplateResponse(
+        name="top.html", 
+        context={"request": request, "title": "YOLO REST Server"},
+        request=request)
 #
 # HISTORY
+# [2] 2024-04-27 - Fixed TemplateResponse() due to the Starlette change
 # [1] 2024-11-14 - Initial version
 #
 

@@ -38,15 +38,15 @@ https://huggingface.co/Ultralytics/YOLO11/blob/365ed86341e7a7456dbc4cafc09f13881
 
 ### 環境変数を設定する
 
-本アプリを起動するには環境変数の設定が必要である。以下の環境変数が.envファイルに定義されている。YOLOモデルファイル名やRedisサーバーは初期設定されているので、これらに変更があれば修正する。
+本アプリを起動するには環境変数の設定が必要である。以下の環境変数が **env.tpl** ファイルに定義されている。YOLOモデルファイル名やRedisサーバーは初期設定されているので、これらに変更があれば修正する。このファイルを、**.env** という名前にする。
 
-|  変数名  |  説明  |
+| 変数名 | 説明 |
 | ---- | ---- |
-|  LOCAL_FOLDER  | アップロードしたファイルを暫定的に保存するローカルフォルダーの名前 |
-|  YOLO_MODEL_FILE  | 利用するYOLOモデルファイルのパス |
-|  REDIS_HOST | Redisサーバーのホスト名 |
-|  REDIS_PORT | Redisサーバーのポート番号 |
-|  REDIS_EXPIRE | Redisキーの有効期限（秒） |
+| LOCAL_FOLDER | アップロードしたファイルを暫定的に保存するローカルフォルダーの名前 |
+| YOLO_MODEL_FILE | 利用するYOLOモデルファイルのパス |
+| REDIS_HOST | Redisサーバーのホスト名 |
+| REDIS_PORT | Redisサーバーのポート番号 |
+| REDIS_EXPIRE | Redisキーの有効期限（秒） |
 
 ### サーバーを起動する
 
@@ -68,11 +68,11 @@ uvicorn main:app
 
 コマンドの説明:
 
-| コマンドの要素 |  説明  |
+| コマンドの要素 | 説明 |
 | ---- | ---- |
-|  uvicorn  | FastAPIベースの非同期Python Webアプリケーションを実行する |
-|  main:app  | Pythonファイルmain.pyの中で、FastAPIが生成する変数がapp |
-|  --reload  | 実行中にソースコードが変更されたとき、サーバーが自動的にリロードされる |
+| uvicorn | FastAPIベースの非同期Python Webアプリケーションを実行する |
+| main:app | Pythonファイルmain.pyの中で、FastAPIが生成する変数がapp |
+| --reload | 実行中にソースコードが変更されたとき、サーバーが自動的にリロードされる |
 
 デフォルトのポート番号は8000。  
 ポート番号を指定するときは --port [ポート番号] を後ろに付与する。
@@ -120,7 +120,7 @@ eYACHO/GEMBA Noteアプリから送信されてきた画像情報をファイル
 
 レスポンスの仕様:
 
-|  キー  | 説明  |
+| キー | 説明 |
 | ---- | ---- |
 | objName | 検出された物体名称 |
 | probability | 検出精度 |
@@ -159,7 +159,7 @@ eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想
 
 レスポンスの仕様:
 
-|  キー  | 説明  |
+| キー | 説明 |
 | ---- | ---- |
 | objName | 検出された物体名称 |
 | probability | 検出精度 |
@@ -192,13 +192,13 @@ eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想
 | ---- | ---- |
 | _NOTE_LINK | eYACHO/GEMBA Noteの対象ノート固有のURL |
 | _PAGE_ID | eYACHO/GEMBA Noteの対象ページ固有のID番号 |
-| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用）|
+| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用） |
 
 ※_NOTE_LINKと_PAGE_IDは、Redisから情報を取得するときのキーを生成するために利用する。
 
 レスポンスの仕様:
 
-|  キー  | 説明  |
+| キー | 説明 |
 | ---- | ---- |
 | objName | 検出された物体名称 |
 | probability | 検出精度 |
@@ -231,13 +231,13 @@ eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想
 | ---- | ---- |
 | _NOTE_LINK | eYACHO/GEMBA Noteの対象ノート固有のURL |
 | _PAGE_ID | eYACHO/GEMBA Noteの対象ページ固有のID番号 |
-| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用）|
+| label | 送信されたPDF情報のラベル（/rest/detect_pdf専用） |
 
 ※_NOTE_LINKと_PAGE_IDは、Redisから情報を取得するときのキーを生成するために利用する。
 
 レスポンスの仕様:
 
-|  キー  | 説明  |
+| キー | 説明 |
 | ---- | ---- |
 | outputImage | 生成された画像のBase64文字列 |
 
@@ -297,6 +297,7 @@ eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想
 
 ### 更新履歴
 
+- 2026-04-27 - Starlette仕様変更に伴う改修
 - 2025-11-27 - 画面全体からの検出を追加
 - 2025-11-10 - V7に伴う修正・Ultralyticsへのグレードアップ
 - 2024-11-14 - 初版
