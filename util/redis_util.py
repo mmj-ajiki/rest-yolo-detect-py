@@ -37,7 +37,14 @@ else:
 
 # REDISに接続する
 r_client = redis.Redis(host=redis_host, port=redis_port, db=0)
-print("Connected REDIS")
+
+# 実際に接続を試みる
+try:
+    r_client.ping()  
+    print("REDISと接続成功")
+except redis.exceptions.ConnectionError as e:
+    print("REDISと接続できません:", e)
+    sys.exit()
 
 #
 # [FUNCTION] redisBoxGet()

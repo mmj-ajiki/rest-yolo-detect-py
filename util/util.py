@@ -8,7 +8,7 @@
 #
 
 import base64
-import fitz  # PyMuPDF
+import pymupdf  # PyMuPDF
 import os
 
 #
@@ -69,11 +69,11 @@ def pdf2PNG(pdf_path, output_path, page_num, zoom=1):
             error = f"PDFファイルが見つからない: {pdf_path}"
             return error
 
-        pdf_document = fitz.open(pdf_path)
+        pdf_document = pymupdf.open(pdf_path)
 
         if page_num < len(pdf_document):
             page = pdf_document[page_num]
-            matrix = fitz.Matrix(zoom, zoom)
+            matrix = pymupdf.Matrix(zoom, zoom)
             pix = page.get_pixmap(matrix=matrix)
             pix.save(output_path)
         else:
@@ -86,6 +86,7 @@ def pdf2PNG(pdf_path, output_path, page_num, zoom=1):
     return error
 #
 # HISTORY
+# [2] 2026-10-13 - Replaced fitz with pymupdf
 # [1] 2025-11-27 - Initial version
 #
 

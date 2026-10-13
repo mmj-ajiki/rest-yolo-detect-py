@@ -3,7 +3,7 @@
 # ファイルを一時保存するフォルダー
 LOCAL_FOLDER=_temp
 # 物体検出モデルファイル
-YOLO_MODEL_FILE=model/yolo11n.pt
+YOLO_MODEL_FILE=model/yolo26n.pt
 # REDISサーバー
 REDIS_HOST=localhost
 # REDISポート番号

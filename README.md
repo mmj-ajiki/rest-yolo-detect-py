@@ -16,8 +16,7 @@ NoSQLのキーバリュー型の一つで、メモリ上でデータを管理す
 
 [https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)を参考にインストールする。
 
-**補足：** WSL2のLinuxで動作させなくても、Redis for Windows 3.0からでも動作することを確認している。
-**配信サイト：** [https://github.com/MicrosoftArchive/redis/releases](https://github.com/MicrosoftArchive/redis/releases)
+**補足：** Windows OS上でRedisを利用する場合は、WSL2上のLinuxにRedisをインストールして起動する方法、またはDocker上でRedisコンテナを実行する方法が一般的である。Redis for Windowsは古いWindows向け移植版であり、現在のRedis公式配布版ではWindowsネイティブ環境は標準的なサポート対象ではない。
 
 ### 必要なパッケージのインストール
 
@@ -29,12 +28,15 @@ pip install -r requirements.txt
 
 ### YOLOモデルファイルを配置する
 
-学習済みのYOLOモデルファイル（YOLO v3）は次のURLからダウンロードし、modelフォルダーに配置する。人物、動物、乗り物などを検出するモデルである。次の2つのバージョンで動作を確認している。
+学習済みのYOLOモデルファイルをダウンロードし、model フォルダーに配置する。
+これらのモデルは、人物、動物、乗り物など、学習済みのクラスに属する物体を画像から検出するために使用する。以下の2種類のモデルについて、動作を確認している。
 
-- [yolov8n.pt](
+- [YOLOv8 Nano (yolov8n.pt)](
 https://huggingface.co/Ultralytics/YOLOv8/blob/main/yolov8n.pt)
-- [yolo11n.pt](
-https://huggingface.co/Ultralytics/YOLO11/blob/365ed86341e7a7456dbc4cafc09f138814ce9ff1/yolo11n.pt)
+- [YOLO26 Nano (yolo26n.pt)](
+https://huggingface.co/Ultralytics/YOLO26/blob/main/yolo26n.pt)
+
+いずれもUltralyticsが提供する学習済みモデルである。実行時には、使用するモデルに対応したUltralyticsライブラリのバージョンを使用すること。
 
 ### 環境変数を設定する
 
@@ -64,7 +66,9 @@ uvicorn main:app --reload
 uvicorn main:app
 ```
 
-※Application startup completeと表示されるまで少し時間がかかる。
+- 起動時、Redis接続確認に少し時間がかかる。
+  - 接続に成功した場合「REDISと接続成功」とコンソールに表示される。
+  - 失敗した場合、プログラム実行は終了する。
 
 コマンドの説明:
 
@@ -297,6 +301,7 @@ eYACHO/GEMBA Noteアプリから送信されてきたPDF情報（手書きを想
 
 ### 更新履歴
 
+- 2026-10-13 - Redis補足説明を修正、yolo11n.ptをyolo26n.ptに差し替え
 - 2026-04-27 - Starlette仕様変更に伴う改修
 - 2025-11-27 - 画面全体からの検出を追加
 - 2025-11-10 - V7に伴う修正・Ultralyticsへのグレードアップ
